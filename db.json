@@ -1,0 +1,90 @@
+{
+  "employees": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john.doe@company.com",
+      "department": "Engineering",
+      "role": "EMPLOYEE",
+      "isActive": true
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "email": "jane.smith@company.com",
+      "department": "HR",
+      "role": "HR",
+      "isActive": true
+    },
+    {
+      "id": 3,
+      "name": "Robert Brown",
+      "email": "robert.brown@company.com",
+      "department": "Finance",
+      "role": "EMPLOYEE",
+      "isActive": true
+    },
+    {
+      "id": 4,
+      "name": "Emily Davis",
+      "email": "emily.davis@company.com",
+      "department": "Marketing",
+      "role": "EMPLOYEE",
+      "isActive": false
+    }
+  ],
+
+  "leaves": [
+    {
+      "id": 1,
+      "employeeId": 1,
+      "fromDate": "2026-01-20",
+      "toDate": "2026-01-22",
+      "reason": "Medical Leave",
+      "status": "Pending"
+    },
+    {
+      "id": 2,
+      "employeeId": 2,
+      "fromDate": "2026-01-18",
+      "toDate": "2026-01-19",
+      "reason": "Personal Work",
+      "status": "Approved"
+    },
+    {
+      "id": 3,
+      "employeeId": 3,
+      "fromDate": "2026-01-25",
+      "toDate": "2026-01-26",
+      "reason": "Family Function",
+      "status": "Rejected"
+    }
+  ],
+
+  "attendance": [
+    {
+      "id": 1,
+      "employeeId": 1,
+      "date": "2026-01-22",
+      "status": "Present"
+    },
+    {
+      "id": 2,
+      "employeeId": 2,
+      "date": "2026-01-22",
+      "status": "Present"
+    },
+    {
+      "id": 3,
+      "employeeId": 3,
+      "date": "2026-01-22",
+      "status": "Absent"
+    },
+    {
+      "id": 4,
+      "employeeId": 4,
+      "date": "2026-01-22",
+      "status": "Leave"
+    }
+  ]
+}

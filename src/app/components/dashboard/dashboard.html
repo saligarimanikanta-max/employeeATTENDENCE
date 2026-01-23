@@ -1,0 +1,34 @@
+<h2 class="page-title">Dashboard</h2>
+
+<mat-grid-list cols="4" rowHeight="120px" gutterSize="16px">
+
+  <mat-grid-tile>
+    <mat-card class="kpi-card">
+      <h3>Total Employees</h3>
+      <p class="kpi-value">{{ totalEmployees }}</p>
+    </mat-card>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <mat-card class="kpi-card">
+      <h3>Present Today</h3>
+      <p class="kpi-value">{{ presentToday }}</p>
+    </mat-card>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <mat-card class="kpi-card">
+      <h3>Pending Leaves</h3>
+      <p class="kpi-value">{{ pendingLeaves }}</p>
+    </mat-card>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <mat-card class="kpi-card">
+      <h3>Approved Leaves</h3>
+      <p class="kpi-value">{{ approvedLeaves }}</p>
+    </mat-card>
+  </mat-grid-tile>
+
+</mat-grid-list>
+
