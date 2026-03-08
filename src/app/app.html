@@ -1,5 +1,17 @@
 <mat-toolbar color="primary">
-  Employee Attendance System
+
+<span class="logo">HR Management</span>
+
+<span class="spacer"></span>
+
+<a mat-button routerLink="/">Dashboard</a>
+<a mat-button routerLink="/employees">Employees</a>
+<a mat-button routerLink="/attendance">Attendance</a>
+<a mat-button routerLink="/leave-request">Leave Request</a>
+<a mat-button routerLink="/leave-approval">Leave Approval</a>
+
 </mat-toolbar>
 
+<div class="page-container">
 <router-outlet></router-outlet>
+</div>

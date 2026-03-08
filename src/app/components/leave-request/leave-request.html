@@ -1,43 +1,67 @@
-<mat-card class="leave-card">
-  <h2>Leave Request</h2>
+<mat-card>
 
-  <form [formGroup]="leaveForm" (ngSubmit)="submitLeave()">
+<h2>Leave Request</h2>
 
-    <!-- From Date -->
-    <mat-form-field appearance="outline">
-      <mat-label>From Date</mat-label>
-      <input matInput [matDatepicker]="fromPicker" formControlName="fromDate">
-      <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
-      <mat-datepicker #fromPicker></mat-datepicker>
-      <mat-error *ngIf="leaveForm.get('fromDate')?.invalid">
-        From date is required
-      </mat-error>
-    </mat-form-field>
+<form [formGroup]="leaveForm" (ngSubmit)="submitLeave()" class="form">
 
-    <!-- To Date -->
-    <mat-form-field appearance="outline">
-      <mat-label>To Date</mat-label>
-      <input matInput [matDatepicker]="toPicker" formControlName="toDate">
-      <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
-      <mat-datepicker #toPicker></mat-datepicker>
-      <mat-error *ngIf="leaveForm.get('toDate')?.invalid">
-        To date is required
-      </mat-error>
-    </mat-form-field>
+<mat-form-field>
+<input matInput placeholder="Employee Name" formControlName="employeeName">
+</mat-form-field>
 
-    <!-- Reason -->
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Reason</mat-label>
-      <textarea matInput rows="4" formControlName="reason"></textarea>
-      <mat-error *ngIf="leaveForm.get('reason')?.invalid">
-        Minimum 10 characters required
-      </mat-error>
-    </mat-form-field>
+<mat-form-field>
+<input matInput type="date" formControlName="startDate">
+</mat-form-field>
 
-    <button mat-raised-button color="primary" type="submit" [disabled]="leaveForm.invalid">
-      Submit Leave Request
-    </button>
+<mat-form-field>
+<input matInput type="date" formControlName="endDate">
+</mat-form-field>
 
-  </form>
+<mat-form-field>
+<input matInput placeholder="Reason" formControlName="reason">
+</mat-form-field>
+
+<button mat-raised-button color="primary">
+Submit Leave
+</button>
+
+</form>
+
 </mat-card>
 
+<mat-card>
+
+<h3>Leave Requests</h3>
+
+<table mat-table [dataSource]="leaveRequests">
+
+<ng-container matColumnDef="employee">
+<th mat-header-cell *matHeaderCellDef>Employee</th>
+<td mat-cell *matCellDef="let l">{{l.employeeName}}</td>
+</ng-container>
+
+<ng-container matColumnDef="start">
+<th mat-header-cell *matHeaderCellDef>Start</th>
+<td mat-cell *matCellDef="let l">{{l.startDate}}</td>
+</ng-container>
+
+<ng-container matColumnDef="end">
+<th mat-header-cell *matHeaderCellDef>End</th>
+<td mat-cell *matCellDef="let l">{{l.endDate}}</td>
+</ng-container>
+
+<ng-container matColumnDef="reason">
+<th mat-header-cell *matHeaderCellDef>Reason</th>
+<td mat-cell *matCellDef="let l">{{l.reason}}</td>
+</ng-container>
+
+<ng-container matColumnDef="status">
+<th mat-header-cell *matHeaderCellDef>Status</th>
+<td mat-cell *matCellDef="let l">{{l.status}}</td>
+</ng-container>
+
+<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+</table>
+
+</mat-card>

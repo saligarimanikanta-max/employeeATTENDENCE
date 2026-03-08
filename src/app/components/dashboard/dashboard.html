@@ -1,34 +1,23 @@
-<h2 class="page-title">Dashboard</h2>
+<div class="dashboard">
 
-<mat-grid-list cols="4" rowHeight="120px" gutterSize="16px">
+<mat-card class="card blue">
+<h3>Total Employees</h3>
+<p>{{totalEmployees}}</p>
+</mat-card>
 
-  <mat-grid-tile>
-    <mat-card class="kpi-card">
-      <h3>Total Employees</h3>
-      <p class="kpi-value">{{ totalEmployees }}</p>
-    </mat-card>
-  </mat-grid-tile>
+<mat-card class="card green">
+<h3>Present Today</h3>
+<p>{{presentToday}}</p>
+</mat-card>
 
-  <mat-grid-tile>
-    <mat-card class="kpi-card">
-      <h3>Present Today</h3>
-      <p class="kpi-value">{{ presentToday }}</p>
-    </mat-card>
-  </mat-grid-tile>
+<mat-card class="card orange">
+<h3>Pending Leaves</h3>
+<p>{{pendingLeaves}}</p>
+</mat-card>
 
-  <mat-grid-tile>
-    <mat-card class="kpi-card">
-      <h3>Pending Leaves</h3>
-      <p class="kpi-value">{{ pendingLeaves }}</p>
-    </mat-card>
-  </mat-grid-tile>
+<mat-card class="card purple">
+<h3>Approved Leaves</h3>
+<p>{{approvedLeaves}}</p>
+</mat-card>
 
-  <mat-grid-tile>
-    <mat-card class="kpi-card">
-      <h3>Approved Leaves</h3>
-      <p class="kpi-value">{{ approvedLeaves }}</p>
-    </mat-card>
-  </mat-grid-tile>
-
-</mat-grid-list>
-
+</div>

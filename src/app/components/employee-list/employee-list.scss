@@ -1,13 +1,15 @@
-.employee-card {
-  margin: 20px;
-  padding: 16px;
+mat-card{
+padding:20px;
+margin-bottom:20px;
 }
 
-.full-width {
-  width: 100%;
+.form{
+display:flex;
+gap:15px;
+margin-bottom:20px;
+align-items:center;
 }
 
-h2 {
-  margin-bottom: 16px;
-  font-weight: 500;
+table{
+width:100%;
 }

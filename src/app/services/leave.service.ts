@@ -1,30 +1,25 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
-export interface Leave {
-  id: number;
-  employeeId: number;
-  fromDate: string;
-  toDate: string;
-  reason: string;
-  status: 'Pending' | 'Approved' | 'Rejected';
-}
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LeaveService {
 
-  private apiUrl = 'http://localhost:3000/leaves';
+  private leaves = new BehaviorSubject<any[]>([]);
+  leaves$ = this.leaves.asObservable();
 
-  constructor(private http: HttpClient) {}
-
-  getLeaves(): Observable<Leave[]> {
-    return this.http.get<Leave[]>(this.apiUrl);
+  getLeaves(){
+    return this.leaves$;
   }
 
-  updateLeaveStatus(leave: Leave): Observable<Leave> {
-    return this.http.put<Leave>(`${this.apiUrl}/${leave.id}`, leave);
+  addLeave(leave:any){
+    const current = this.leaves.value;
+    this.leaves.next([...current,leave]);
   }
+
+  updateLeave(){
+    this.leaves.next([...this.leaves.value]);
+  }
+
 }

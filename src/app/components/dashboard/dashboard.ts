@@ -1,68 +1,76 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
-import { MatGridListModule } from '@angular/material/grid-list';
 
 import { EmployeeService, Employee } from '../../services/employee.service';
-import { LeaveService, Leave } from '../../services/leave.service';
+import { LeaveService } from '../../services/leave.service';
+import { AttendanceService } from '../../services/attendance.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [
     CommonModule,
-    MatCardModule,
-    MatGridListModule
+    MatCardModule
   ],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
 
   totalEmployees = 0;
   presentToday = 0;
   pendingLeaves = 0;
   approvedLeaves = 0;
 
+  employees: Employee[] = [];
+  attendance: any = {};
+
   constructor(
     private employeeService: EmployeeService,
-    private leaveService: LeaveService
+    private leaveService: LeaveService,
+    private attendanceService: AttendanceService
   ) {}
 
-  ngOnInit(): void {
-    this.loadEmployees();
-    this.loadLeaves();
-  }
+  ngOnInit() {
 
-  private loadEmployees(): void {
-    this.employeeService.getEmployees().subscribe({
-      next: (employees: Employee[]) => {
-        this.totalEmployees = employees.length;
-        this.presentToday = employees.filter(
-          (emp: Employee) => emp.isActive
-        ).length;
-      },
-      error: (err: unknown) => {
-  console.error(err);
-}
+    // Employee updates
+    this.employeeService.getEmployees().subscribe(emp => {
+
+      this.employees = emp;
+
+      this.totalEmployees = emp.length;
+
+      this.updatePresentCount();
 
     });
-  }
 
-  private loadLeaves(): void {
-    this.leaveService.getLeaves().subscribe({
-      next: (leaves: Leave[]) => {
-        this.pendingLeaves = leaves.filter(
-          (leave: Leave) => leave.status === 'Pending'
-        ).length;
+    // Attendance updates
+    this.attendanceService.getAttendance().subscribe(data => {
 
-        this.approvedLeaves = leaves.filter(
-          (leave: Leave) => leave.status === 'Approved'
-        ).length;
-      },
-      error: (err) => {
-        console.error('Error loading leaves', err);
-      }
+      this.attendance = data;
+
+      this.updatePresentCount();
+
     });
+
+    // Leave updates
+    this.leaveService.getLeaves().subscribe(leaves => {
+
+      this.pendingLeaves = leaves.filter(l => l.status === 'Pending').length;
+
+      this.approvedLeaves = leaves.filter(l => l.status === 'Approved').length;
+
+    });
+
   }
+
+  updatePresentCount() {
+
+    this.presentToday = Object.values(this.attendance)
+      .filter(status => status === 'Present').length;
+
+  }
+
 }

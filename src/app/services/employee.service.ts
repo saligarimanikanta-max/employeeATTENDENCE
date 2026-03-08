@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 export interface Employee {
-  id: number;
-  name: string;
-  email: string;
-  department: string;
-  role: string;
-  isActive: boolean;
+  id:number;
+  name:string;
+  department:string;
+  isActive:boolean;
 }
 
 @Injectable({
@@ -16,11 +13,28 @@ export interface Employee {
 })
 export class EmployeeService {
 
-  private apiUrl = 'http://localhost:3000/employees';
+  private employees = new BehaviorSubject<Employee[]>([
+  {id:1,name:'John',department:'IT',isActive:true},
+  {id:2,name:'Sarah',department:'HR',isActive:true},
+  {id:3,name:'David',department:'Finance',isActive:true},
+  {id:4,name:'Emma',department:'Marketing',isActive:true},
+  {id:5,name:'Michael',department:'Operations',isActive:true},
+  {id:6,name:'Sophia',department:'IT',isActive:true},
+  {id:7,name:'Daniel',department:'HR',isActive:true},
+  {id:8,name:'Olivia',department:'Finance',isActive:true},
+  {id:9,name:'James',department:'Marketing',isActive:true},
+  {id:10,name:'Isabella',department:'Operations',isActive:true}
+]);
 
-  constructor(private http: HttpClient) {}
+  employees$ = this.employees.asObservable();
 
-  getEmployees(): Observable<Employee[]> {
-    return this.http.get<Employee[]>(this.apiUrl);
+  getEmployees(){
+    return this.employees$;
   }
+
+  addEmployee(emp:Employee){
+    const current = this.employees.value;
+    this.employees.next([...current,emp]);
+  }
+
 }

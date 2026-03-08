@@ -1,7 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatTableModule } from '@angular/material/table';
+import { FormsModule } from '@angular/forms';
+
 import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
 
 import { EmployeeService, Employee } from '../../services/employee.service';
 
@@ -10,32 +15,57 @@ import { EmployeeService, Employee } from '../../services/employee.service';
   standalone: true,
   imports: [
     CommonModule,
-    MatTableModule,
-    MatCardModule
+    FormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatTableModule
   ],
   templateUrl: './employee-list.html',
   styleUrls: ['./employee-list.scss']
 })
-export class EmployeeListComponent implements OnInit {
+export class EmployeeListComponent {
 
-  displayedColumns: string[] = ['id', 'name', 'email', 'department', 'role'];
   employees: Employee[] = [];
 
-  constructor(private employeeService: EmployeeService) {}
+  newEmployee: Employee = {
+    id: 0,
+    name: '',
+    department: '',
+    isActive: true
+  };
 
-  ngOnInit(): void {
-    this.loadEmployees();
-  }
+  displayedColumns: string[] = ['id','name','department'];
 
-  private loadEmployees(): void {
-    this.employeeService.getEmployees().subscribe({
-      next: (data: Employee[]) => {
-        this.employees = data;
-      },
-      error: (err: unknown) => {
-  console.error(err);
-}
+  constructor(private employeeService: EmployeeService){}
 
+  ngOnInit(){
+
+    this.employeeService.getEmployees().subscribe(data=>{
+      this.employees = data;
     });
+
   }
+
+  addEmployee(){
+
+    const employee: Employee = {
+      id: this.employees.length + 1,
+      name: this.newEmployee.name,
+      department: this.newEmployee.department,
+      isActive: true
+    };
+
+    this.employeeService.addEmployee(employee);
+
+    this.newEmployee = {
+      id:0,
+      name:'',
+      department:'',
+      isActive:true
+    };
+
+  }
+
 }

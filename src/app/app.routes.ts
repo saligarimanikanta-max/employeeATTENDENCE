@@ -1,43 +1,15 @@
 import { Routes } from '@angular/router';
 
+import { DashboardComponent } from './components/dashboard/dashboard';
+import { EmployeeListComponent } from './components/employee-list/employee-list';
+import { AttendanceTrackerComponent } from './components/attendance-tracker/attendance-tracker';
+import { LeaveRequestComponent } from './components/leave-request/leave-request';
+import { LeaveApprovalComponent } from './components/leave-approval/leave-approval';
+
 export const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'dashboard',
-    pathMatch: 'full'
-  },
-  {
-    path: 'dashboard',
-    loadComponent: () =>
-      import('./components/dashboard/dashboard')
-        .then(m => m.DashboardComponent)
-  },
-  {
-    path: 'employees',
-    loadComponent: () =>
-      import('./components/employee-list/employee-list')
-        .then(m => m.EmployeeListComponent)
-  },
-  {
-    path: 'attendance',
-    loadComponent: () =>
-      import('./components/attendance-tracker/attendance-tracker')
-        .then(m => m.AttendanceTrackerComponent)
-  },
-  {
-    path: 'leave-request',
-    loadComponent: () =>
-      import('./components/leave-request/leave-request')
-        .then(m => m.LeaveRequestComponent)
-  },
-  {
-    path: 'leave-approval',
-    loadComponent: () =>
-      import('./components/leave-approval/leave-approval')
-        .then(m => m.LeaveApprovalComponent)
-  },
-  {
-    path: '**',
-    redirectTo: 'dashboard'
-  }
+  { path: '', component: DashboardComponent },
+  { path: 'employees', component: EmployeeListComponent },
+  { path: 'attendance', component: AttendanceTrackerComponent },
+  { path: 'leave-request', component: LeaveRequestComponent },
+  { path: 'leave-approval', component: LeaveApprovalComponent }
 ];

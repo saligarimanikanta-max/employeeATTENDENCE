@@ -1,18 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  ReactiveFormsModule,
-  FormBuilder,
-  FormGroup,
-  Validators
-} from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
+
+import { LeaveService } from '../../services/leave.service';
 
 @Component({
   selector: 'app-leave-request',
@@ -20,41 +16,57 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
     MatButtonModule,
-    MatCardModule,
-    MatSnackBarModule
+    MatTableModule
   ],
   templateUrl: './leave-request.html',
   styleUrls: ['./leave-request.scss']
 })
 export class LeaveRequestComponent {
 
-  leaveForm: FormGroup;
+  leaveForm!: FormGroup;
+  leaveRequests:any[] = [];
+
+  displayedColumns:string[] = ['employee','start','end','reason','status'];
 
   constructor(
-    private fb: FormBuilder,
-    private snackBar: MatSnackBar
-  ) {
+    private fb:FormBuilder,
+    private leaveService:LeaveService
+  ){}
+
+  ngOnInit(){
+
     this.leaveForm = this.fb.group({
-      fromDate: ['', Validators.required],
-      toDate: ['', Validators.required],
-      reason: ['', [Validators.required, Validators.minLength(10)]]
+      employeeName:['',Validators.required],
+      startDate:['',Validators.required],
+      endDate:['',Validators.required],
+      reason:['',Validators.required]
     });
+
+    this.leaveService.getLeaves().subscribe(data=>{
+      this.leaveRequests = data;
+    });
+
   }
 
-  submitLeave(): void {
-    if (this.leaveForm.valid) {
-      console.log(this.leaveForm.value);
+  submitLeave(){
 
-      this.snackBar.open('Leave request submitted', 'Close', {
-        duration: 3000
-      });
+    if(this.leaveForm.valid){
+
+      const leave = {
+        ...this.leaveForm.value,
+        status:'Pending'
+      };
+
+      this.leaveService.addLeave(leave);
 
       this.leaveForm.reset();
+
     }
+
   }
+
 }

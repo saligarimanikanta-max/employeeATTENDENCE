@@ -1,94 +1,57 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 
-import { MatTableModule } from '@angular/material/table';
-import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { EmployeeService, Employee } from '../../services/employee';
-import { AttendanceService, Attendance } from '../../services/attendance';
+import { EmployeeService, Employee } from '../../services/employee.service';
+import { AttendanceService } from '../../services/attendance.service';
 
 @Component({
   selector: 'app-attendance-tracker',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
-    MatTableModule,
-    MatSelectModule,
     MatCardModule,
-    MatButtonModule,
-    MatSnackBarModule
+    MatTableModule,
+    MatButtonModule
   ],
   templateUrl: './attendance-tracker.html',
   styleUrls: ['./attendance-tracker.scss']
 })
-export class AttendanceTrackerComponent implements OnInit {
-
-  displayedColumns: string[] = ['employee', 'date', 'status', 'actions'];
+export class AttendanceTrackerComponent {
 
   employees: Employee[] = [];
-  attendanceList: Attendance[] = [];
 
-  today: string = new Date().toISOString().split('T')[0];
+  attendance: any = {};
+
+  displayedColumns: string[] = [
+    'id',
+    'name',
+    'department',
+    'attendance'
+  ];
 
   constructor(
     private employeeService: EmployeeService,
-    private attendanceService: AttendanceService,
-    private snackBar: MatSnackBar
+    private attendanceService: AttendanceService
   ) {}
 
-  ngOnInit(): void {
-    this.loadEmployees();
-    this.loadAttendance();
-  }
+  ngOnInit() {
 
-  private loadEmployees(): void {
-    this.employeeService.getEmployees().subscribe({
-      next: (data: Employee[]) => {
-        this.employees = data;
-      },
-      error: (err: unknown) => {
-        console.error('Error loading employees', err);
-      }
+    this.employeeService.getEmployees().subscribe(data => {
+      this.employees = data;
     });
-  }
 
-  private loadAttendance(): void {
-    this.attendanceService.getAttendance().subscribe({
-      next: (data: Attendance[]) => {
-        this.attendanceList = data;
-      },
-      error: (err: unknown) => {
-        console.error('Error loading attendance', err);
-      }
+    this.attendanceService.getAttendance().subscribe(data => {
+      this.attendance = data;
     });
+
   }
 
-  markAttendance(
-    emp: Employee,
-    status: 'Present' | 'Absent' | 'Leave'
-  ): void {
-    const record: Attendance = {
-      id: Date.now(),           // JSON Server friendly ID
-      employeeId: emp.id,
-      date: this.today,
-      status
-    };
-
-    this.attendanceService.saveAttendance(record).subscribe({
-      next: () => {
-        this.snackBar.open('Attendance saved successfully', 'Close', {
-          duration: 2000
-        });
-        this.loadAttendance();
-      },
-      error: (err: unknown) => {
-        console.error('Error saving attendance', err);
-      }
-    });
+  markAttendance(id: number, status: string) {
+    this.attendanceService.markAttendance(id, status);
   }
+
 }
